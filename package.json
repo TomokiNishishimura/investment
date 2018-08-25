@@ -1,0 +1,13 @@
+{
+  "name": "investment",
+  "private": true,
+  "dependencies": {
+    "@rails/webpacker": "^3.5.5",
+    "vue": "^2.5.17",
+    "vue-loader": "^15.3.0",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.1.5"
+  }
+}
