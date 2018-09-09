@@ -74,3 +74,11 @@ gem 'webpacker', github: 'rails/webpacker'
 gem 'redis-rails'
 
 gem 'devise'
+
+group :development do
+  gem 'capistrano', '3.7.0'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rbenv'
+  gem 'capistrano-rbenv-vars'
+end

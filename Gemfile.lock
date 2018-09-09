@@ -54,6 +54,8 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
+    airbrussh (1.3.0)
+      sshkit (>= 1.6.1, != 1.7.0)
     archive-zip (0.11.0)
       io-like (~> 0.3.0)
     arel (9.0.0)
@@ -63,6 +65,25 @@ GEM
       msgpack (~> 1.0)
     builder (3.2.3)
     byebug (10.0.2)
+    capistrano (3.7.0)
+      airbrussh (>= 1.0.0)
+      capistrano-harrow
+      i18n
+      rake (>= 10.0.0)
+      sshkit (>= 1.9.0)
+    capistrano-bundler (1.3.0)
+      capistrano (~> 3.1)
+      sshkit (~> 1.2)
+    capistrano-harrow (0.5.3)
+    capistrano-rails (1.4.0)
+      capistrano (~> 3.1)
+      capistrano-bundler (~> 1.1)
+    capistrano-rbenv (2.1.4)
+      capistrano (~> 3.1)
+      sshkit (~> 1.3)
+    capistrano-rbenv-vars (0.1.0)
+      capistrano (>= 3.0)
+      capistrano-rbenv (>= 2.0)
     capybara (3.3.1)
       addressable
       mini_mime (>= 0.1.3)
@@ -94,21 +115,20 @@ GEM
       railties (>= 4.1.0, < 6.0)
       responders
       warden (~> 1.2.3)
-    domain_name (0.5.20180417)
-      unf (>= 0.0.5, < 1.0.0)
     dotenv (2.5.0)
     dotenv-rails (2.5.0)
       dotenv (= 2.5.0)
       railties (>= 3.2, < 6.0)
     dropzonejs-rails (0.8.2)
       rails (> 3.1)
+    dry-inflector (0.1.2)
     erubi (1.7.1)
     excon (0.62.0)
     execjs (2.7.0)
     ffi (1.9.25)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
-    fog (2.0.0)
+    fog (1.41.0)
       fog-aliyun (>= 0.1.0)
       fog-atmos
       fog-aws (>= 0.6.0)
@@ -125,7 +145,6 @@ GEM
       fog-json
       fog-local
       fog-openstack
-      fog-ovirt
       fog-powerdns (>= 0.1.1)
       fog-profitbricks
       fog-rackspace
@@ -142,7 +161,7 @@ GEM
       fog-xenserver
       fog-xml (~> 0.1.1)
       ipaddress (~> 0.5)
-      json (~> 2.0)
+      json (>= 1.8, < 2.0)
     fog-aliyun (0.3.2)
       fog-core
       fog-json
@@ -156,10 +175,10 @@ GEM
       fog-json (~> 1.0)
       fog-xml (~> 0.1)
       ipaddress (~> 0.8)
-    fog-brightbox (0.15.0)
-      fog-core (~> 1.22)
+    fog-brightbox (0.16.1)
+      dry-inflector
+      fog-core
       fog-json
-      inflecto (~> 0.0.2)
       mime-types
     fog-cloudatcost (0.1.2)
       fog-core (~> 1.36)
@@ -201,16 +220,10 @@ GEM
       multi_json (~> 1.10)
     fog-local (0.5.0)
       fog-core (>= 1.27, < 3.0)
-    fog-openstack (0.1.27)
+    fog-openstack (0.2.1)
       fog-core (~> 1.45.0)
       fog-json (>= 1.0)
       ipaddress (>= 0.8)
-    fog-ovirt (1.1.1)
-      fog-core
-      fog-json
-      fog-xml
-      ovirt-engine-sdk (>= 4.1.3)
-      rbovirt (~> 0.1.5)
     fog-powerdns (0.2.0)
       fog-core
       fog-json
@@ -264,17 +277,14 @@ GEM
     formatador (0.2.5)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
-    http-cookie (1.0.3)
-      domain_name (~> 0.5)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
-    inflecto (0.0.2)
     io-like (0.3.0)
     ipaddress (0.8.3)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
-    json (2.1.0)
+    json (1.8.6)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -297,13 +307,13 @@ GEM
     msgpack (1.2.4)
     multi_json (1.13.1)
     mysql2 (0.5.1)
-    netrc (0.11.0)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (5.0.2)
     nio4r (2.3.1)
     nokogiri (1.8.3)
       mini_portile2 (~> 2.3.0)
     orm_adapter (0.5.0)
-    ovirt-engine-sdk (4.2.4)
-      json (>= 1, < 3)
     public_suffix (3.0.2)
     puma (3.11.4)
     rack (2.0.5)
@@ -339,9 +349,6 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
-    rbovirt (0.1.7)
-      nokogiri
-      rest-client (> 1.7.0)
     rbvmomi (1.13.0)
       builder (~> 3.0)
       json (>= 1.8)
@@ -367,10 +374,6 @@ GEM
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
-    rest-client (2.0.2)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 4.0)
-      netrc (~> 0.8)
     ruby_dep (1.5.0)
     rubyzip (1.2.1)
     sass (3.5.6)
@@ -399,11 +402,13 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.3.13)
+    sshkit (1.17.0)
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
-    trollop (2.1.3)
+    trollop (2.9.9)
     turbolinks (5.1.1)
       turbolinks-source (~> 5.1)
     turbolinks-source (5.1.0)
@@ -411,9 +416,6 @@ GEM
       thread_safe (~> 0.1)
     uglifier (4.1.12)
       execjs (>= 0.3.0, < 3)
-    unf (0.1.4)
-      unf_ext
-    unf_ext (0.0.7.5)
     warden (1.2.7)
       rack (>= 1.0)
     web-console (3.6.2)
@@ -434,6 +436,11 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
+  capistrano (= 3.7.0)
+  capistrano-bundler
+  capistrano-rails
+  capistrano-rbenv
+  capistrano-rbenv-vars
   capybara (>= 2.15, < 4.0)
   carrierwave
   chromedriver-helper
@@ -441,7 +448,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   dropzonejs-rails
-  fog
+  fog (~> 1.41.0)
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   mysql2
@@ -452,7 +459,6 @@ DEPENDENCIES
   selenium-webdriver
   spring
   spring-watcher-listen (~> 2.0.0)
-  sqlite3
   turbolinks (~> 5)
   tzinfo-data
   uglifier (>= 1.3.0)
