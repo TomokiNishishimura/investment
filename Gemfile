@@ -65,7 +65,7 @@ gem 'carrierwave'
 gem 'dropzonejs-rails'
 gem 'mysql2'
 
-gem 'fog'
+gem 'fog', '~> 1.41.0'
 
 gem 'dotenv-rails'
 
