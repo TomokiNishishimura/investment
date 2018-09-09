@@ -1,5 +1,5 @@
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.11.0"
+lock "~> 3.7.0"
 
 set :application, 'your_app_name'
 set :repo_url, 'git@github.com:your_repository.git'
